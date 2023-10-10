@@ -41,46 +41,27 @@ $hotels = [
 
 ];
 
-/* $hotelsFind = [];
-//var_dump($hotels);
-
-$parking = $_GET['parking'];
-$rating = $_GET['rating'];
-//var_dump($_GET['parking'], $_GET['rating']);
 
 
-if (isset($parking)) {
-    $hotelsFind = [];
-    //var_dump($parking);
-    foreach ($hotels as $value) {
-        var_dump('dentro al for');
-        //var_dump($value['parking']);
-        //var_dump($parking == $value['parking']);
-        if ($parking == $value['parking']) {
+$parkings = (array_filter($hotels, function ($parking) {
 
-            $hotelsFind[] = [$value];
-        }
-        var_dump($hotelsFind);
+    if ($parking['parking'] && $_GET['parking'] == 'true') {
+        return $parking;
+    } elseif (!$parking['parking'] && $_GET['parking'] == 'false') {
+        return $parking;
+    } elseif ($_GET['parking'] === 'none') {
+        return $parking;
     }
-    $parking = null;
-}
+}));
 
-//var_dump($hotelsFind); */
+$hotel = (array_filter($parkings, function ($rating) {
 
-/* var_dump($hotels[0]['parking']);
-//var_dump($_GET['parking']);
-
-$parking = $_GET['parking'];
-$rating = $_GET['rating'];
-
-if (isset($parking)) {
-    var_dump('settato su', $parking);
-
-
-} */
-
-
-
+    if ($_GET['rating'] !== 'none') {
+        return $rating['vote'] == $_GET['rating'];
+    } else {
+        return $rating;
+    }
+}))
 
 
 ?>

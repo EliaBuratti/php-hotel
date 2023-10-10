@@ -36,9 +36,9 @@ include 'script.php';
 <body>
 
 
-    <div class="container mt-5 ">
+    <div class="container mt-5 px-0 ">
 
-        <form action="" method="get" class="d-flex align-items-end my-4">
+        <form action="" method="get" class="d-flex align-items-end my-4 justify-content-center">
 
             <div class="parking me-4">
                 <span>With parking?</span>
@@ -84,63 +84,40 @@ include 'script.php';
                 </tr>
             </thead>
             <tbody>
-                <?php if (isset($_GET['parking'], $_GET['rating'])) : ?>
 
-                    <?php
-                    $parkings = (array_filter($hotels, function ($parking) {
+                <?php
+                $i = 1;
+                foreach ($hotel as $key => $value) : ?>
 
-                        if ($parking['parking'] && $_GET['parking'] == 'true') {
-                            return $parking;
-                        } elseif (!$parking['parking'] && $_GET['parking'] == 'false') {
-                            return $parking;
-                        } elseif ($_GET['parking'] === 'none') {
-                            return $parking;
-                        }
-                    }));
+                    <tr>
+                        <th scope="row"><?= $i++ ?></th>
 
-                    $hotel = (array_filter($parkings, function ($rating) {
+                        <td><?= $value['name'] ?></td>
 
-                        if ($_GET['rating'] !== 'none') {
-                            return $rating['vote'] == $_GET['rating'];
-                        } else {
-                            return $rating;
-                        }
-                    }))
+                        <td><?= $value['description'] ?></td>
 
-                    ?>
-                    <?php
-                    $i = 1;
-                    foreach ($hotel as $key => $value) : ?>
+                        <td>
 
-                        <tr>
-                            <th scope="row"><?= $i++ ?></th>
+                            <?php if ($value['parking']) : ?>
 
-                            <td><?= $value['name'] ?></td>
+                                Yes
 
-                            <td><?= $value['description'] ?></td>
+                            <?php else : ?>
 
-                            <td>
+                                No
 
-                                <?php if ($value['parking']) : ?>
+                            <?php endif; ?>
 
-                                    Yes
-
-                                <?php else : ?>
-
-                                    No
-
-                                <?php endif; ?>
-
-                            </td>
+                        </td>
 
 
-                            <td><?= $value['vote'] ?></td>
+                        <td><?= $value['vote'] ?></td>
 
-                            <td><?= $value['distance_to_center'] . ' km' ?></td>
-                        </tr>
+                        <td><?= $value['distance_to_center'] . ' km' ?></td>
+                    </tr>
 
-                    <?php endforeach; ?>
-                <?php endif; ?>
+                <?php endforeach; ?>
+
             </tbody>
         </table>
     </div>
