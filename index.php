@@ -8,47 +8,8 @@ visualizzare come in precedenza tutti gli hotel. -->
 
 
 <?php
-
-$hotels = [
-
-    [
-        'name' => 'Hotel Belvedere',
-        'description' => 'Hotel Belvedere Descrizione',
-        'parking' => true,
-        'vote' => 4,
-        'distance_to_center' => 10.4
-    ],
-    [
-        'name' => 'Hotel Futuro',
-        'description' => 'Hotel Futuro Descrizione',
-        'parking' => true,
-        'vote' => 2,
-        'distance_to_center' => 2
-    ],
-    [
-        'name' => 'Hotel Rivamare',
-        'description' => 'Hotel Rivamare Descrizione',
-        'parking' => false,
-        'vote' => 1,
-        'distance_to_center' => 1
-    ],
-    [
-        'name' => 'Hotel Bellavista',
-        'description' => 'Hotel Bellavista Descrizione',
-        'parking' => false,
-        'vote' => 5,
-        'distance_to_center' => 5.5
-    ],
-    [
-        'name' => 'Hotel Milano',
-        'description' => 'Hotel Milano Descrizione',
-        'parking' => true,
-        'vote' => 2,
-        'distance_to_center' => 50
-    ],
-
-];
-
+//importo il file con i dati degli hotel
+include 'script.php';
 
 
 ?>
@@ -93,6 +54,7 @@ $hotels = [
                 <span>Rating star</span>
 
                 <select name="rating" id="rating" class="form-select w-auto" aria-label="Default select example">
+                    <option value="none">All</option>
                     <option value="1">1</option>
                     <option value="2">2</option>
                     <option value="3">3</option>
@@ -112,7 +74,7 @@ $hotels = [
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th scope="col">#</th>
+                    <th scope="col">List</th>
                     <th scope="col">Name</th>
                     <th scope="col">Description</th>
                     <th scope="col">Parking</th>
@@ -122,36 +84,63 @@ $hotels = [
                 </tr>
             </thead>
             <tbody>
+                <?php if (isset($_GET['parking'], $_GET['rating'])) : ?>
 
-                <?php $i = 1;
-                foreach ($hotels as $key => $value) : ?>
-                    <tr>
-                        <th scope="row"><?= $i++ ?></th>
+                    <?php
+                    $parkings = (array_filter($hotels, function ($parking) {
 
-                        <td><?= $value['name'] ?></td>
+                        if ($parking['parking'] && $_GET['parking'] == 'true') {
+                            return $parking;
+                        } elseif (!$parking['parking'] && $_GET['parking'] == 'false') {
+                            return $parking;
+                        } elseif ($_GET['parking'] === 'none') {
+                            return $parking;
+                        }
+                    }));
 
-                        <td><?= $value['description'] ?></td>
+                    $hotel = (array_filter($parkings, function ($rating) {
 
-                        <td>
+                        if ($_GET['rating'] !== 'none') {
+                            return $rating['vote'] == $_GET['rating'];
+                        } else {
+                            return $rating;
+                        }
+                    }))
 
-                            <?php if ($value['parking']) : ?>
+                    ?>
+                    <?php
+                    $i = 1;
+                    foreach ($hotel as $key => $value) : ?>
 
-                                Yes
+                        <tr>
+                            <th scope="row"><?= $i++ ?></th>
 
-                            <?php else : ?>
+                            <td><?= $value['name'] ?></td>
 
-                                No
+                            <td><?= $value['description'] ?></td>
 
-                            <?php endif; ?>
+                            <td>
 
-                        </td>
+                                <?php if ($value['parking']) : ?>
+
+                                    Yes
+
+                                <?php else : ?>
+
+                                    No
+
+                                <?php endif; ?>
+
+                            </td>
 
 
-                        <td><?= $value['vote'] ?></td>
+                            <td><?= $value['vote'] ?></td>
 
-                        <td><?= $value['distance_to_center'] . ' km' ?></td>
-                    </tr>
-                <?php endforeach; ?>
+                            <td><?= $value['distance_to_center'] . ' km' ?></td>
+                        </tr>
+
+                    <?php endforeach; ?>
+                <?php endif; ?>
             </tbody>
         </table>
     </div>
