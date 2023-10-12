@@ -44,9 +44,9 @@ include 'script.php';
                 <span>With parking?</span>
 
                 <select name="parking" id="parking" class="form-select w-auto" aria-label="Default select example">
-                    <option value="none">All</option>
-                    <option value="true">Yes</option>
-                    <option value="false">No</option>
+                    <option value="none" <?php echo $_GET['parking'] == 'none' ? 'selected' :  '' ?>>All</option>
+                    <option value="true" <?php echo $_GET['parking'] == 'true' ? 'selected' :  '' ?>>Yes</option>
+                    <option value="false" <?php echo $_GET['parking'] == 'false' ? 'selected' :  '' ?>>No</option>
                 </select>
             </div>
 
@@ -55,11 +55,11 @@ include 'script.php';
 
                 <select name="rating" id="rating" class="form-select w-auto" aria-label="Default select example">
                     <option value="none">All</option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
+                    <option value="1" <?php echo $_GET['rating'] == 1 ? 'selected' :  '' ?>>1</option>
+                    <option value="2" <?php echo $_GET['rating'] == 2 ? 'selected' :  '' ?>>2</option>
+                    <option value="3" <?php echo $_GET['rating'] == 3 ? 'selected' :  '' ?>>3</option>
+                    <option value="4" <?php echo $_GET['rating'] == 4 ? 'selected' :  '' ?>>4</option>
+                    <option value="5" <?php echo $_GET['rating'] == 5 ? 'selected' :  '' ?>>5</option>
                 </select>
             </div>
 
